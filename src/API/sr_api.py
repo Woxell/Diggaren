@@ -13,6 +13,6 @@ def getSongName(channel):
         else:
             print(f"No song playing")
     else:
-        print(f"error")
+        print(f"error {response.status_code}: {response.text}")
 
-getSongName(2576)
+getSongName(164)
