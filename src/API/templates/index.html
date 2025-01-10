@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diggaren</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        button {
+            background-color: #1DB954;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #17a543;
+        }
+    </style>
+</head>
+<body>
+    <h1>Diggaren - Grupp17</h1>
+    <p>Klicka på knappen för att logga in via Spotify</p>
+    <a href="{{ auth_url }}">
+        <button>Logga in med Spotify</button>
+</body>
+</html>
