@@ -12,7 +12,8 @@ def getSongInfo(channel):
 
         if 'playlist' in data and 'song' in data['playlist'] and data['playlist']['song']:
             song = data['playlist']['song']
-            channelName = data.get('channel', {}).get('name', 'okänd kanal')
+            ##channelName = data.get('channel', {}).get('name', 'okänd kanal')
+            channelName = data.get('playlist', {}).get('channel', {}).get('name', 'okänd kanal')
             title = song.get('title', 'okänd titel')
             artist = song.get('artist', 'okänd artist')
             startTime = song.get('starttimeutc', None)
