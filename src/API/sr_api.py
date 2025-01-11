@@ -2,7 +2,7 @@ import requests
 from datetime import datetime
 
 url = "https://api.sr.se/api/v2/"
-
+testChanel = 164
 def getChannel(channel):
     endpoint = f"playlists/rightnow?channelid={channel}"
     params = {"format": "json"}
@@ -11,11 +11,11 @@ def getChannel(channel):
         data = response.json()
         if 'playlist' in data and 'channel' in data['playlist']:
             channelName = data.get('playlist', {}).get('channel', {}).get('name', 'okänd kanal')
-            print(f"Kanal: {channelName}")
+            return channelName
         else:
-            print(f"Vet ej brudda")
+            return "Vet ej brudda"
     else:
-        print(f"error {response.status_code}: {response.text}")
+        return f"error {response.status_code}: {response.text}"
 
 def getSongName(channel):
     endpoint = f"playlists/rightnow?channelid={channel}"
@@ -25,11 +25,11 @@ def getSongName(channel):
         data = response.json()
         if 'playlist' in data and 'song' in data['playlist'] and data['playlist']['song']:
             song = data['playlist']['song']
-            print(f"Title: {song['title']}")
+            return song['title']
         else:
-            print(f"No song playing")
+            return "No song playing"
     else:
-        print(f"error {response.status_code}: {response.text}")
+        return f"error {response.status_code}: {response.text}"
 
 
 def getSongArtist(channel):
@@ -40,11 +40,11 @@ def getSongArtist(channel):
         data = response.json()
         if 'playlist' in data and 'song' in data['playlist'] and data['playlist']['song']:
             song = data['playlist']['song']
-            print(f"Artist: {song['artist']}")
+            return song['artist']
         else:
-            print(f"No song playing")
+            return "No song playing"
     else:
-        print(f"error {response.status_code}: {response.text}")
+        return f"error {response.status_code}: {response.text}"
 
 def getStartTime(channel):
     endpoint = f"playlists/rightnow?channelid={channel}"
@@ -61,14 +61,14 @@ def getStartTime(channel):
                 startTime = startTime.strftime("%Y-%m-%d %H:%M:%S")
             else:
                 startTime = "Komigen kombis den har inte startat"
-            print(f"Startid: {startTime}")
+            return startTime
         else:
-            print(f"Komigen kombis den har inte startat")
+            return "Komigen kombis den har inte startat"
     else:
-        print(f"error {response.status_code}: {response.text}")
+        return f"error {response.status_code}: {response.text}"
 
 
-getChannel(164)
-getSongName(164)
-getSongArtist(164)
-getStartTime(164)
+print(getChannel(testChanel))
+print(getSongName(testChanel))
+print(getSongArtist(testChanel))
+print(getStartTime(testChanel))

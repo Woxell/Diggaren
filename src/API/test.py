@@ -12,7 +12,6 @@ def getLastSong(channel):
 
         if 'playlist' in data and 'previoussong' in data['playlist']:
             song = data['playlist']['previoussong']
-            ##channelName = data.get('channel', {}).get('name', 'okänd kanal')
             channelName = data.get('playlist', {}).get('channel', {}).get('name', 'okänd kanal')
             title = song.get('title', 'okänd titel')
             artist = song.get('artist', 'okänd artist')
