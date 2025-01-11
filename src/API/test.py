@@ -19,8 +19,9 @@ def getSongInfo(channel):
             startTime = song.get('starttimeutc', None)
 
             if startTime:
-                startTime = datetime.strptime(startTime, "%Y-%m-%dT%H:%M:%SZ")
-                startTime = datetime.strftime("%Y-%m-%d %H:%M:%S")
+                timestamp_ms = int(startTime.strip("/Date()"))
+                startTime = datetime.fromtimestamp(timestamp_ms / 1000)  # Konvertera till sekunder
+                startTime = startTime.strftime("%Y-%m-%d %H:%M:%S")
             else:
                 startTime = "Ingen starttid kompis"
             print(f"Kanal: {channelName}")
