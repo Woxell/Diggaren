@@ -28,7 +28,27 @@ spotify_auth = SpotifyAuthenticator(SPOTIPY_CLIENT_ID, SPOTIPY_CLIENT_SECRET, SP
 @app.route('/')
 def index():
     auth_url = spotify_auth.get_auth_url()
-    return render_template('index.html', auth_url=auth_url)
+
+    try:
+        response = requests.get('http://api.sr.se/api/v2/channels?format=json')
+        data = response.json()
+
+        channels = data.get("channels", [])  # få ut alla channel-objekt ur json-datan som en array
+
+        li_components = "".join(  # Skapa en lista av <li>-komponenter för varje radiokanal
+            f"""
+            <li onclick="displayStation({channel})">
+                <a target="_blank">{channel.get('name')}</a>
+                <p>{channel.get('tagline')}</p>
+            </li>
+            """ for channel in channels)  # for-each loop
+
+    except requests.RequestException as e:
+        print(f"Error: {e}")
+
+        li_components = "<li>API ligger nere?.</li>"
+
+    return render_template('dashboard.html', radio_list=li_components)
 
 
 @app.route('/callback')

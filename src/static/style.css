@@ -49,3 +49,6 @@ li {
 a {
     color: #00B7FF;
 }
+#radioDisplay{
+    vertical-align: top;
+}

@@ -7,7 +7,15 @@
     <link rel="stylesheet" href="../static/style.css">
 </head>
 <script>
+    function displayStation(channelJson){
+        console.log(channelJson);
+        document.getElementById("currentRadio").innerHTML = channelJson.name;
+        document.getElementById("currentArtist").innerHTML = 'Artist: vänta på elias o adrians cook';
+        document.getElementById("currentSong").innerHTML = 'Song: vänta på elias o adrians cook';
+        document.getElementById("player").querySelector('source').src = channelJson.liveaudio.url;
+        document.getElementById("player").load();
 
+    }
 </script>
 <body>
 <div class="container">
@@ -24,18 +32,15 @@
                 </ul>
             </td>
 
-            <td>
-                <h3>Radiostationsnamn</h3>
-                <p>Artist</p>
-                <p>Låttitel</p>
+            <td id="radioDisplay">
+                <h3 id="currentRadio">Radiostationsnamn</h3>
+                <p id="currentArtist">Artist</p>
+                <p id="currentSong">Låttitel</p>
 
-                <audio id="player" controls>
+                <audio id="player" controls autoplay>
                     <source src="https://sverigesradio.se/topsy/direkt/srapi/164.mp3" type="audio/mp3">
                 </audio>
 
-                <br>
-                <input type="checkbox" id="autoplayCheckBox" name="autoplayCheckBox" value="checked"> Autoplay
-                <br>
                 <br>
                 <button type="button" id="addToSpotify">SRotify it!</button>
             </td>
@@ -44,11 +49,7 @@
         <tr>
             <td id="info">
                 Spotify
-                <h1>Välkommen, {{user.display_name }}!</h1>
-                <img src="{{ user.images[0].url }}" alt="Profilbild">
-                <p><strong>E-post:</strong> {{ user.email }}</p>
-                <p><strong>Land:</strong> {{ user.country }}</p>
-                <p><strong>Spotify ID:</strong> {{ user.id }}</p>
+
             </td>
         </tr>
     </table>
