@@ -6,6 +6,13 @@
     <title>Diggaren</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+<script>
+    document.getElementById('autoplayCheckBox').addEventListener('click', musicPlay);
+
+    function musicPlay() {
+        document.getElementById('player').play();
+    }
+</script>
 <body>
 <!--<h1>Diggaren - Grupp17</h1>
 <p>Klicka på knappen för att logga in via Spotify</p>
@@ -14,9 +21,7 @@
 </a>
 <br>
 
-<audio>
-    <source src="http://sverigesradio.se/topsy/direkt/srapi/164.mp3">
-</audio>-->
+-->
 
 <div class="container">
 
@@ -38,6 +43,15 @@
                 <h3>Radiostationsnamn</h3>
                 <p>Artist</p>
                 <p>Låttitel</p>
+
+                <audio id="player"  controls>
+                    <source src="https://sverigesradio.se/topsy/direkt/srapi/164.mp3" type="audio/mp3">
+                </audio>
+
+                <br>
+                <input type="checkbox" id="autoplayCheckBox" name="autoplayCheckBox" value="checked"> Autoplay
+                <br>
+                <br>
                 <button type="button" id="addToSpotify">SRotify it!</button>
             </td>
 
