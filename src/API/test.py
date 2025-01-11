@@ -3,7 +3,6 @@ from datetime import datetime
 
 url = "https://api.sr.se/api/v2/"
 
-
 def getSongInfo(channel):
     endpoint = f"playlists/rightnow?channelid={channel}"
     params = {"format": "json"}
