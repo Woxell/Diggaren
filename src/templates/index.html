@@ -7,65 +7,16 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <script>
-    document.getElementById('autoplayCheckBox').addEventListener('click', musicPlay);
 
-    function musicPlay() {
-        document.getElementById('player').play();
-    }
 </script>
 <body>
-<!--<h1>Diggaren - Grupp17</h1>
+<h1>Diggaren - Grupp17</h1>
 <p>Klicka på knappen för att logga in via Spotify</p>
 <a href="{{ auth_url }}">
     <button>Logga in med Spotify</button>
 </a>
 <br>
 
--->
 
-<div class="container">
-
-    <h1 id="SRotify">SRotify</h1>
-
-
-    <table>
-
-        <tr>
-            <td rowspan="2" id="list">
-
-                <ul id="stations">
-                    <!-- Insert dynamic list here -->
-                    {{ radio_list|safe }}
-                </ul>
-            </td>
-
-            <td>
-                <h3>Radiostationsnamn</h3>
-                <p>Artist</p>
-                <p>Låttitel</p>
-
-                <audio id="player"  controls>
-                    <source src="https://sverigesradio.se/topsy/direkt/srapi/164.mp3" type="audio/mp3">
-                </audio>
-
-                <br>
-                <input type="checkbox" id="autoplayCheckBox" name="autoplayCheckBox" value="checked"> Autoplay
-                <br>
-                <br>
-                <button type="button" id="addToSpotify">SRotify it!</button>
-            </td>
-
-        </tr>
-        <tr>
-            <td id="info">
-                Spotify
-                <h3 id="unicornName">Loggad in som: [användarnamn]</h3>
-
-                <button type="button" id="updateUnicorn">Uppdatera enhörning</button>
-                <button type="button" id="deleteUnicorn">Ta bort enhörning</button>
-            </td>
-        </tr>
-    </table>
-</div>
 </body>
 </html>
