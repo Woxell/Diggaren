@@ -8,7 +8,7 @@ app = Flask(__name__)
 app.secret_key = 'en_hemlig_nyckeln'
 
 
-file_path = os.path.abspath('../../src/spotify-api-key.txt')
+file_path = os.path.abspath('../DIGGAREN/src/spotify-api-key.txt')
 with open(file_path, "r") as file:
     for line in file:
         if line.startswith("API_KEY="):
@@ -22,8 +22,6 @@ SPOTIPY_REDIRECT_URI = 'http://localhost:5000/callback'
 spotify_auth = SpotifyAuthenticator(SPOTIPY_CLIENT_ID, SPOTIPY_CLIENT_SECRET, SPOTIPY_REDIRECT_URI)
 
 
-# sr
-# sr_auth = SRAuth()
 
 @app.route('/')
 def index():
@@ -79,7 +77,38 @@ def dashboard():
     except Exception as e:
         print(f"Error fetching user info: {e}")
         return "Ett fel uppstod vid hämtning av användarinformation", 500
+    
+    
+@app.route('/test_spotify')
+def test_spotify():
+    try:
+        artist_name = "Coldplay"
+        song_title = "Fix You"
+        
+        search_query = f"{song_title} {artist_name}"
+        
+        search_results = spotify_auth.search_song(search_query)
+        
+        if not search_results:
+            return "Låten kunde inte hittas på Spotify", 404
+        
+        result_html = "<h1>Spotify-träffar</h1><ul>"
+        for result in search_results:
+            result_html += f"""
+                <li>
+                    <a href="{result['spotify_url']}" target="_blank">
+                        {result['name']} - {result['artist']} (Album: {result['album']})
+                    </a>
+                </li>
+            """
+        result_html += "</ul>"
+        return result_html
+    
+    except Exception as e:
+        print(f"Error searching Spotify: {e}")
+        return "Ett fel uppstod vid sökning på Spotify", 500
+        
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5000)
