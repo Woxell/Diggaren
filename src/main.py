@@ -18,7 +18,7 @@ with open(file_path, "r") as file:
 
 SPOTIPY_CLIENT_ID = api_key
 SPOTIPY_CLIENT_SECRET = api_secret
-SPOTIPY_REDIRECT_URI = 'http://localhost:5000/callback'
+SPOTIPY_REDIRECT_URI = 'http://localhost:5001/callback'
 spotify_auth = SpotifyAuthenticator(SPOTIPY_CLIENT_ID, SPOTIPY_CLIENT_SECRET, SPOTIPY_REDIRECT_URI)
 
 
@@ -111,4 +111,4 @@ def test_spotify():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=5001)
