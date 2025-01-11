@@ -32,14 +32,19 @@
                 </audio>
                 <br>
                 <br>
-                <button type="button" id="addToSpotify" value="-1" onclick="console.log(value)">SRotify it!</button>
+                <br>
+                <button type="button" id="addToSpotify" value="-1" onclick="location.href='test_spotify'">SRotify it!</button>
             </td>
 
         </tr>
         <tr>
             <td id="spotifyPane">
                 Spotify
-
+                <h1>Välkommen, {{user.display_name }}!</h1>
+                <img src="{{ user.images[0].url }}" alt="Profilbild">
+                <p><strong>E-post:</strong> {{ user.email }}</p>
+                <p><strong>Land:</strong> {{ user.country }}</p>
+                <p><strong>Spotify ID:</strong> {{ user.id }}</p>
             </td>
         </tr>
     </table>
