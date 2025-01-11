@@ -8,7 +8,7 @@ class SpotifyAuthenticator:
             client_id=client_id,
             client_secret=client_secret,
             redirect_uri=redirect_uri,
-            scope="user-read-playback-state user-modify-playback-state"
+            scope="user-read-private user-read-email user-read-playback-state user-modify-playback-state"
         )
         self.sp = None
     
