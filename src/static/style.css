@@ -6,7 +6,7 @@ body {
 #SRotify {
     font-family: "Segoe Script", sans-serif;
     font-size: 50px;
-    color: #5fe231;
+    color: #1DB954;
     font-weight: bold;
     margin-bottom: 20px;
     margin-left: 450px;
@@ -49,6 +49,10 @@ li {
 a {
     color: #00B7FF;
 }
-#radioDisplay{
+#radioPane{
+    vertical-align: top;
+    height: 400px;
+}
+#spotifyPane{
     vertical-align: top;
 }

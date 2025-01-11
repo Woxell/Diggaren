@@ -5,18 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="stylesheet" href="../static/style.css">
+    <script src="../static/scripts.js" defer></script>
 </head>
-<script>
-    function displayStation(channelJson){
-        console.log(channelJson);
-        document.getElementById("currentRadio").innerHTML = channelJson.name;
-        document.getElementById("currentArtist").innerHTML = 'Artist: vänta på elias o adrians cook';
-        document.getElementById("currentSong").innerHTML = 'Song: vänta på elias o adrians cook';
-        document.getElementById("player").querySelector('source').src = channelJson.liveaudio.url;
-        document.getElementById("player").load();
-
-    }
-</script>
 <body>
 <div class="container">
     <h1 id="SRotify">SRotify</h1>
@@ -32,22 +22,22 @@
                 </ul>
             </td>
 
-            <td id="radioDisplay">
-                <h3 id="currentRadio">Radiostationsnamn</h3>
-                <p id="currentArtist">Artist</p>
-                <p id="currentSong">Låttitel</p>
+            <td id="radioPane">
+                <h3 id="currentRadio">Välkommen!</h3>
+                <p id="currentArtist">Ingen låt spelas just nu</p>
+                <p id="currentSong">Välj en radiostation att lyssna på!</p>
 
                 <audio id="player" controls autoplay>
-                    <source src="https://sverigesradio.se/topsy/direkt/srapi/164.mp3" type="audio/mp3">
+                    <source src="" type="audio/mp3">
                 </audio>
-
                 <br>
-                <button type="button" id="addToSpotify">SRotify it!</button>
+                <br>
+                <button type="button" id="addToSpotify" value="-1" onclick="console.log(value)">SRotify it!</button>
             </td>
 
         </tr>
         <tr>
-            <td id="info">
+            <td id="spotifyPane">
                 Spotify
 
             </td>
