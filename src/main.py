@@ -54,7 +54,6 @@ def dashboard():
             return render_template('dashboard.html', user=user_info)
         return redirect('/')
     except Exception as e:
-        return render_template('dashboard.html', user=user_info)
         print(f"Error fetching user info: {e}")
         return "Ett fel uppstod vid hämtning av användarinformation", 500
 

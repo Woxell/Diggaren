@@ -54,8 +54,8 @@ async function updateCurrentlyPlaying(currentRadioID) {
         document.getElementById("previousArtist").innerHTML = "Föregående artist: " + currentSongJson.playlist.previoussong.artist;
         document.getElementById("previousSong").innerHTML = "Föregående titel: " + currentSongJson.playlist.previoussong.title;
     } catch (e) {
-        document.getElementById("previousArtist").innerHTML = "sefsf";
-        document.getElementById("previousSong").innerHTML = "ef";
+        document.getElementById("previousArtist").innerHTML = "";
+        document.getElementById("previousSong").innerHTML = "";
     }
 }
 
