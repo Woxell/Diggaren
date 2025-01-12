@@ -123,6 +123,9 @@ async function refreshSearchList() {
         let anchorItem = document.createElement("a");
         anchorItem.target = "_blank";
         anchorItem.innerHTML = search.artist+": "+search.name;
+        if(anchorItem.innerHTML.length > 60){ //Om resultat-texten är för lång, korta av efter 60 tecken
+            anchorItem.innerHTML = anchorItem.innerHTML.substring(0, 60)+"...";
+        }
         anchorItem.id = "searchLink";
         anchorItem.href = search.spotify_url;
         listItem.appendChild(anchorItem);

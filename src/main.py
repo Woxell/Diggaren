@@ -1,6 +1,8 @@
+import json
 import os.path
-
 import requests
+from collections import deque
+
 from flask import Flask, request, redirect, session, jsonify, render_template
 from flask_cors import CORS
 from spotify_auth import SpotifyAuthenticator
@@ -46,7 +48,6 @@ def callback():
 
 @app.route('/dashboard')
 def dashboard():
-    # Spotify
     try:
         user_info = spotify_auth.get_current_user()
         print(f"User info: {user_info}")
@@ -79,8 +80,8 @@ def get_channel(channelID):
         print(f"ERROR: {e}")
         return jsonify({"error": "Kunde inte hämta radiostationen"}), 404
 
-#Här lagrar vi sökresultat
-search_queries = []
+#Här lagrar vi sökresultat som en kö, max 5 sparade sökresultat
+search_queries = deque(maxlen=5)
 
 @app.route('/result', methods=['POST', 'OPTIONS'])
 def post_search():
@@ -89,13 +90,7 @@ def post_search():
 
     try:
         data = request.get_json()
-        artist = data.get('artist')
-        title = data.get('title')
-
-        if not artist or not title:
-            return jsonify({"error": "Both 'artist' and 'title' are required"}), 400
-
-        search_query = f"{title} {artist}"
+        search_query = f"{data.get('title')} {data.get('artist')}"
         try:
             search_results = spotify_auth.search_song(search_query)
             search_queries.append(search_results[0]) #spara endast första sökresultatet
@@ -111,7 +106,7 @@ def post_search():
 
 @app.route('/result', methods=['GET'])
 def get_search():
-    return jsonify(search_queries)
+    return json.dumps(list(search_queries))
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
