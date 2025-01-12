@@ -10,41 +10,34 @@
 <body>
 <div class="container">
     <h1 id="SRotify">SRotify</h1>
-
     <table>
-
         <tr>
             <td rowspan="2" id="list">
-
-                <ul id="stations">
-                    <!-- Insert dynamic list here -->
-                    {{ radio_list|safe }}
-                </ul>
+                <ul id="stations"></ul>
             </td>
 
             <td id="radioPane">
-                <h3 id="currentRadio">Välkommen!</h3>
+                <h3 id="currentRadio">Välkommen {{user.display_name }}!</h3>
                 <p id="currentArtist">Ingen låt spelas just nu</p>
                 <p id="currentSong">Välj en radiostation att lyssna på!</p>
-
+                <button type="button" id="searchCurrent" onclick="searchCurrent()">SRotify denna låt!
+                </button>
+                <br>
+                <br>
                 <audio id="player" controls autoplay>
                     <source src="" type="audio/mp3">
                 </audio>
                 <br>
-                <br>
-                <br>
-                <button type="button" id="addToSpotify" value="-1" onclick="location.href='test_spotify'">SRotify it!</button>
+                <p id="previousArtist"></p>
+                <p id="previousSong"></p>
+                <button type="button" id="searchPrevious" onclick="searchPrevious()">SRotify föregående låt!
+                </button>
             </td>
 
         </tr>
         <tr>
             <td id="spotifyPane">
-                Spotify
-                <h1>Välkommen, {{user.display_name }}!</h1>
-                <img src="{{ user.images[0].url }}" alt="Profilbild">
-                <p><strong>E-post:</strong> {{ user.email }}</p>
-                <p><strong>Land:</strong> {{ user.country }}</p>
-                <p><strong>Spotify ID:</strong> {{ user.id }}</p>
+                <ul id="searchResults"></ul>
             </td>
         </tr>
     </table>

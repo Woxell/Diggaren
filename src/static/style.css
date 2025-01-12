@@ -3,6 +3,7 @@ body {
     height: 100%;
     margin-left: 100px;
 }
+
 #SRotify {
     font-family: "Segoe Script", sans-serif;
     font-size: 50px;
@@ -12,6 +13,7 @@ body {
     margin-left: 450px;
     text-shadow: 1px 5px 2px green;
 }
+
 button {
     background-color: #1DB954;
     color: white;
@@ -20,39 +22,53 @@ button {
     border-radius: 5px;
     cursor: pointer;
 }
+
 button:hover {
     background-color: #17a543;
 }
+
 img {
     border-radius: 50%;
     width: 150px;
 }
+
 table {
     width: 1100px;
     border-collapse: collapse;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
 th, td {
     padding: 10px;
     border: 1px solid #ddd;
     text-align: left;
+    vertical-align: top;
 }
-li {
+
+#radioLink {
     cursor: pointer;
+    font-family: "Comic Sans MS", sans-serif;
+    font-size: 18px;
+    text-shadow: 1px 1px 1px gray;
 }
+
+#radioDescription {
+    font-style: italic;
+    font-size: 15px;
+}
+
 #list {
     width: 500px;
 }
+
 #info {
     width: 700px;
 }
+
 a {
-    color: #00B7FF;
+    color: #0778ff;
 }
-#radioPane{
-    vertical-align: top;
+
+#radioPane {
     height: 400px;
-}
-#spotifyPane{
-    vertical-align: top;
 }
