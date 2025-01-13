@@ -47,13 +47,13 @@ async function updateCurrentlyPlaying(currentRadioID) {
         // Variabler för nuvarande låt
         let currentArtist = "Ingen sjunger bram";
         let currentTitle = "Någon som yappar kanske?";
-        let currentStartTime = "Ingen som sjunger nu Addeboy";
+        let currentStartTime = "";
 
         // Variabler för föregående låt
         let previousArtist = "Ingen föregående artist";
         let previousTitle = "Ingen föregående låttitel";
-        let previousStartTime = "Okänd tid";
-        let previousStopTime = "Okänd tid";
+        let previousStartTime = "";
+        let previousStopTime = "";
 
         // Kontrollera om nuvarande låtdata finns
         const currentSong = currentSongJson?.playlist?.song;
@@ -120,7 +120,7 @@ async function updateCurrentlyPlaying(currentRadioID) {
         console.error("Fel vid uppdatering av låtinfo:", e);
 
         // Hantera fel för nuvarande låt
-        document.getElementById("currentArtist").innerHTML = "Ingen som sjunger bram";
+        document.getElementById("currentArtist").innerHTML = "Ingen som sjunger bra";
         document.getElementById("currentSong").innerHTML = "Någon som yappar kanske?";
         document.getElementById("currentTime").innerHTML = "Spelades: Okänd tid";
 

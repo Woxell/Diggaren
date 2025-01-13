@@ -12,7 +12,7 @@ app.secret_key = 'en_hemlig_nyckeln'
 CORS(app)
 
 # Läs in api-nycklar
-file_path = '../spotify-api-key.txt'
+file_path = './spotify-api-key.txt'
 with open(file_path, "r") as file:
     for line in file:
         if line.startswith("API_KEY="):
@@ -61,6 +61,10 @@ def dashboard():
 def page_not_found(error):
     print(error)
     return render_template('404.html'), 404
+
+@app.route('/api')
+def api_dox():
+    return render_template('api.html')
 
 ###REST-metoder
 @app.route('/radio', methods=['GET'])

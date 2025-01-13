@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>SRotify API</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center; /* Center the content horizontally */
+            align-items: flex-start; /* Align content at the top */
+            background-color: #121212;
+            color: #e0e0e0;
+            height: 100vh; /* Full viewport height */
+            margin: 0;
+        }
+
+        .container {
+            width: 800px; /* Fixed width for the content */
+            padding: 20px;
+            text-align: left; /* Left align text */
+        }
+
+        h1, h2, h3, h4 {
+            font-family: sans-serif;
+            color: #f0f0f0;
+        }
+
+        p {
+            font-family: sans-serif;
+            color: #e0e0e0;
+        }
+
+        pre {
+            display: inline-block;
+            white-space: pre-wrap;
+            background-color: #333;
+            color: #f0f0f0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>SRotify API</h1>
+    <p>Detta API tillhandahåller funktioner för att söka efter låtar via Spotify, hämta radiostationer från Sveriges
+        Radio
+        och hantera sökresultat.</p>
+    <p><strong>Bas-URL:</strong> <strong style="font-family: Consolas, sans-serif; font-weight: bold">http://127.0.0.1:5000</strong>
+        eller <strong style="font-family: Consolas, sans-serif; font-weight: bold">localhost:5000</strong></p>
+    <p>Alla exempel nedan använder JSON. För att få ut JSON, använd HTTP-headern <em>Accept: application/json</em>.
+        API:t
+        accepterar JSON som indata och returnerar JSON som utdata.</p>
+
+    <h2>Serverspecifika ändpunkter</h2>
+    <p>Dessa endpoints är avsedda för serverhantering och interna operationer.</p>
+    <ul>
+        <li><strong style="font-family: Arial, sans-serif; font-weight: bold">/</strong> : Bas-URL, visar ett
+            välkomstmeddelande och leder en till att logga in med sitt Spotify-konto.
+        </li>
+        <li><strong style="font-family: Arial, sans-serif; font-weight: bold">/callback</strong> : Används internt för
+            OAuth-autentiseringsflöden.
+        </li>
+        <li><strong style="font-family: Arial, sans-serif; font-weight: bold">/dashboard</strong> : HTML-baserat
+            gränssnitt för åtkomst till API:ns funktionaliteter.
+        </li>
+    </ul>
+
+    <h2>GET /radio</h2>
+    <p>Hämta en lista över alla radiokanaler från Sveriges Radio.</p>
+    <h3>Indata</h3>
+    <p>Ej möjligt för GET.</p>
+    <h3>Returdata</h3>
+    <pre><code>{
+  "channels": [
+    {
+      "channeltype": "Rikskanal",
+      "color": "31a1bd",
+      "id": 132,
+      "image": "https://static-cdn.sr.se/images/132/4a5e66b7-c935-415d-a524-c060ea227de2.jpg?preset=api-
+            default-square",
+      "imagetemplate": "https://static-cdn.sr.se/images/132/4a5e66b7-c935-415d-a524-c060ea227de2.jpg",
+      "liveaudio": {
+        "id": 132,
+        "statkey": "/app/direkt/p1[k(132)]",
+        "url": "http://sverigesradio.se/topsy/direkt/srapi/132.mp3"
+      },
+      "name": "P1",
+      "scheduleurl": "http://api.sr.se/v2/scheduledepisodes?channelid=132",
+      "siteurl": "https://sverigesradio.se/p1",
+      "tagline": "Talat inneh\u00e5ll om samh\u00e4lle, kultur och vetenskap. Kanalen erbjuder nyheter och
+        aktualiteter, granskning och f\u00f6rdjupning men ocks\u00e5 livs\u00e5sk\u00e5dnings-och
+        livsstilsprogram samt underh\u00e5llning och upplevelser till exempel i form av teater.",
+      "xmltvid": "p1.sr.se"
+    }, (fler resultat)
+  ]
+}
+</code></pre>
+
+    <h2>GET /radio/{channelID}</h2>
+    <p>Hämta aktuell information om en specifik radiokanal.</p>
+    <h3>Indata</h3>
+    <p>Parameter <code>{channelID}</code> är ett heltal som anger kanalens ID.</p>
+    <h3>Returdata</h3>
+    <pre><code>{
+  "playlist": {
+    "channel": {
+      "id": 2562,
+      "name": "P2 Musik"
+    },
+    "previoussong": {
+      "albumname": "Str\u00c3\u00a5kkvartett nr 2 G-dur op 18:2",
+      "artist": "Ludwig van Beethoven",
+      "composer": "Ludwig van Beethoven",
+      "conductor": "",
+      "description": "Ludwig van Beethoven - Str\u00c3\u00a5kkvartett nr 2 G-dur (II)",
+      "producer": "Belcea-kvartetten",
+      "recordlabel": "",
+      "starttimeutc": "/Date(1736804320000)/",
+      "stoptimeutc": "/Date(1736804697000)/",
+      "title": "Str\u00c3\u00a5kkvartett nr 2 G-dur (II)"
+    },
+    "song": {
+      "albumname": "Symfoni nr 5 Ess-dur op 82",
+      "artist": "Jean Sibelius",
+      "composer": "Jean Sibelius",
+      "conductor": "Andrew Davis",
+      "description": "Jean Sibelius - Symfoni nr 5 Ess-dur (II)",
+      "producer": "BBC:s symfoniorkester",
+      "recordlabel": "",
+      "starttimeutc": "/Date(1736804729000)/",
+      "stoptimeutc": "/Date(1736805212000)/",
+      "title": "Symfoni nr 5 Ess-dur (II)"
+    }
+  }
+}
+</code></pre>
+
+    <h2>POST /result</h2>
+    <p>Utför en sökning efter en låt i Spotify och lagrar resultatet.</p>
+    <h3>Indata</h3>
+    <pre><code>{
+  "title": "Baby Doll",
+  "artist": "Top Cats feat. Adrian Fagergren"
+}
+</code></pre>
+    <h3>Returdata</h3>
+    <pre><code>{
+    "message": "Search successful",
+    "results": [
+        {
+            "album": "Baby Doll",
+            "artist": "Top Cats",
+            "name": "Baby Doll - Single Version",
+            "spotify_url": "https://open.spotify.com/track/7zvpK2YrJx4sFmW9n2WqF5"
+        },
+        {
+            "album": "D.O.A (Dead or Alive)",
+            "artist": "FLVME, 451",
+            "name": "Getting To The Money",
+            "spotify_url": "https://open.spotify.com/track/2LIcL2eTSoqFZg8m2qvycF"
+        },
+        (fler resultat)
+    ]
+}
+</code></pre>
+
+    <h2>GET /result</h2>
+    <p>Hämta de senaste fem sökresultaten från köminnet.</p>
+    <h3>Indata</h3>
+    <p>Ej möjligt för GET.</p>
+    <h3>Returdata</h3>
+    <pre><code>[
+    {
+        "name": "Symphony No. 2 in D Major, Op. 43: I. Allegretto",
+        "artist": "Jean Sibelius, Lahti Symphony Orchestra, Osmo Vänskä",
+        "spotify_url": "https://open.spotify.com/track/5YOO1fnXyLEsYTeGVCI0oz",
+        "album": "Sibelius: Symphonies Nos. 2 and 3"
+    },
+    (fler resultat)
+]
+</code></pre>
+
+    <h2>Felhantering</h2>
+    <p>API:t returnerar lämpliga HTTP-statuskoder för fel. Några exempel:</p>
+    <ul>
+        <li><strong>400</strong>: Felaktig indata.</li>
+        <li><strong>404</strong>: Resursen hittades inte.</li>
+        <li><strong>500</strong>: Internt serverfel.</li>
+    </ul>
+</div>
+</body>
+</html>
