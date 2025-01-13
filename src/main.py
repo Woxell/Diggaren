@@ -1,5 +1,4 @@
 import json
-import os.path
 import requests
 from collections import deque
 
@@ -8,12 +7,12 @@ from flask_cors import CORS
 from spotify_auth import SpotifyAuthenticator
 
 app = Flask(__name__)
-app.secret_key = 'en_hemlig_nyckeln'  # ???
+app.secret_key = 'en_hemlig_nyckeln'
 
 CORS(app)
 
 # Läs in api-nycklar
-file_path = os.path.abspath('../../src/spotify-api-key.txt')
+file_path = '../spotify-api-key.txt'
 with open(file_path, "r") as file:
     for line in file:
         if line.startswith("API_KEY="):
@@ -57,6 +56,11 @@ def dashboard():
     except Exception as e:
         print(f"Error fetching user info: {e}")
         return "Ett fel uppstod vid hämtning av användarinformation", 500
+
+@app.errorhandler(404)
+def page_not_found(error):
+    print(error)
+    return render_template('404.html'), 404
 
 ###REST-metoder
 @app.route('/radio', methods=['GET'])

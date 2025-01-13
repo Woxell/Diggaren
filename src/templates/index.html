@@ -2,18 +2,19 @@
 <html lang="sv">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <title>Diggaren</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="../static/style.css" rel="stylesheet">
 </head>
 <body>
-<h1>Diggaren - Grupp17</h1>
-<p>Klicka på knappen för att logga in via Spotify</p>
-<a href="{{ auth_url }}">
-    <button>Logga in med Spotify</button>
-</a>
-<br>
-
-
+<div class="container" style="display: flex; flex-direction: column; align-items: center; text-align: center; height: 100vh; justify-content: center;">
+    <h1>Diggaren - Grupp17</h1>
+    <h1 style="font-size: 100px" id="SRotify">SRotify</h1>
+    <br>
+    <br>
+    <a href="{{ auth_url }}">
+        <button>Logga in med Spotify</button>
+    </a>
+</div>
 </body>
 </html>
