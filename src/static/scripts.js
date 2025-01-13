@@ -6,14 +6,21 @@ function currentTime() {
     const now = new Date();
     return now.toLocaleTimeString('sv-SE', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
 }
+// Uppdatera nuvarande tid varje sekund
 function startClock() {
-    const time = document.getElementById("currentTime");
-    if (time) {
+    const clockTimeElement = document.getElementById("clockTime");
+    if (clockTimeElement) {
         setInterval(() => {
-            time.innerHTML = 'Klockslag: ' + currentTime();
-        }, 1000); // refreshas varje sekund
+            const now = new Date();
+            clockTimeElement.innerHTML = "Klockslag: " + now.toLocaleTimeString('sv-SE', {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            });
+        }, 1000);
     }
 }
+
 
 //Utförs när webbsidan laddas, för att bygga listan med radiostationer till vänster
 async function buildRadioList() {
@@ -52,26 +59,100 @@ async function displayStation(channelJson) {
     await updateCurrentlyPlaying(currentRadioID);
 }
 
-//Uppdatera info om låttitel, artist, osv...
+// Uppdatera info om låttitel, artist, start- och stopptider
 async function updateCurrentlyPlaying(currentRadioID) {
     try {
+        // Hämta låtdata
         const currentSongJson = await getCurrentSongJSON(currentRadioID);
-        document.getElementById("currentArtist").innerHTML = "Artist: " + currentSongJson.playlist.song.artist;
-        document.getElementById("currentSong").innerHTML = "Titel: " + currentSongJson.playlist.song.title;
-    } catch (e) {
-        document.getElementById("currentArtist").innerHTML = 'Ingen låt spelas';
-        document.getElementById("currentSong").innerHTML = 'Någon som yappar kanske?';
 
-    }
-    try {
-        const currentSongJson = await getCurrentSongJSON(currentRadioID);
-        document.getElementById("previousArtist").innerHTML = "Föregående artist: " + currentSongJson.playlist.previoussong.artist;
-        document.getElementById("previousSong").innerHTML = "Föregående titel: " + currentSongJson.playlist.previoussong.title;
+        // Variabler för nuvarande låt
+        let currentArtist = "Ingen låt spelas";
+        let currentTitle = "Ingen låttitel tillgänglig";
+        let currentStartTime = "Okänd tid";
+
+        // Variabler för föregående låt
+        let previousArtist = "Ingen föregående artist";
+        let previousTitle = "Ingen föregående låttitel";
+        let previousStartTime = "Okänd tid";
+        let previousStopTime = "Okänd tid";
+
+        // Kontrollera om nuvarande låtdata finns
+        const currentSong = currentSongJson?.playlist?.song;
+        if (currentSong) {
+            currentArtist = currentSong.artist || "Okänd artist";
+            currentTitle = currentSong.title || "Okänd titel";
+
+            // Bearbeta starttid för nuvarande låt
+            const startTimeUTC = currentSong.starttimeutc;
+            if (startTimeUTC) {
+                const timestamp = parseInt(startTimeUTC.replace("/Date(", "").replace(")/", ""));
+                const startDate = new Date(timestamp);
+                currentStartTime = startDate.toLocaleTimeString('sv-SE', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                });
+            }
+        }
+
+        // Kontrollera om föregående låtdata finns
+        const previousSong = currentSongJson?.playlist?.previoussong;
+        if (previousSong) {
+            previousArtist = previousSong.artist || "Okänd artist";
+            previousTitle = previousSong.title || "Okänd titel";
+
+            // Bearbeta starttid för föregående låt
+            const previousStartTimeUTC = previousSong.starttimeutc;
+            if (previousStartTimeUTC) {
+                const timestamp = parseInt(previousStartTimeUTC.replace("/Date(", "").replace(")/", ""));
+                const startDate = new Date(timestamp);
+                previousStartTime = startDate.toLocaleTimeString('sv-SE', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                });
+            }
+
+            // Bearbeta stopptid för föregående låt
+            const previousStopTimeUTC = previousSong.stoptimeutc;
+            if (previousStopTimeUTC) {
+                const timestamp = parseInt(previousStopTimeUTC.replace("/Date(", "").replace(")/", ""));
+                const stopDate = new Date(timestamp);
+                previousStopTime = stopDate.toLocaleTimeString('sv-SE', {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                });
+            }
+        }
+
+        // Uppdatera DOM för nuvarande låt
+        document.getElementById("currentArtist").innerHTML = "Artist: " + currentArtist;
+        document.getElementById("currentSong").innerHTML = "Titel: " + currentTitle;
+        document.getElementById("currentTime").innerHTML = "Startade: " + currentStartTime;
+
+        // Uppdatera DOM för föregående låt
+        document.getElementById("previousArtist").innerHTML = "Föregående artist: " + previousArtist;
+        document.getElementById("previousSong").innerHTML = "Föregående titel: " + previousTitle;
+        document.getElementById("prevousSongStart").innerHTML = "Startade: " + previousStartTime;
+        document.getElementById("prevousSongStopp").innerHTML = "Slutade: " + previousStopTime;
+
     } catch (e) {
-        document.getElementById("previousArtist").innerHTML = "";
-        document.getElementById("previousSong").innerHTML = "";
+        console.error("Fel vid uppdatering av låtinfo:", e);
+
+        // Hantera fel för nuvarande låt
+        document.getElementById("currentArtist").innerHTML = "Ett fel inträffade";
+        document.getElementById("currentSong").innerHTML = "Någon som yappar kanske?";
+        document.getElementById("currentTime").innerHTML = "Spelades: Okänd tid";
+
+        // Hantera fel för föregående låt
+        document.getElementById("previousArtist").innerHTML = "Ett fel inträffade";
+        document.getElementById("previousSong").innerHTML = "Kunde inte hämta låttitel";
+        document.getElementById("prevousSongStart").innerHTML = "Startade: Okänd tid";
+        document.getElementById("prevousSongStopp").innerHTML = "Slutade: Okänd tid";
     }
 }
+
 
 //För ett givet radiostations-ID hämtas och returneras ett JSON-objekt
 async function getCurrentSongJSON(channelID) {
