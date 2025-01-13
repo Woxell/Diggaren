@@ -1,6 +1,20 @@
 const baseURL = 'http://127.0.0.1:5000/';
 var currentRadioID = -1;
 
+//nuvarande tid
+function currentTime() {
+    const now = new Date();
+    return now.toLocaleTimeString('sv-SE', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+}
+function startClock() {
+    const time = document.getElementById("currentTime");
+    if (time) {
+        setInterval(() => {
+            time.innerHTML = 'Klockslag: ' + currentTime();
+        }, 1000); // refreshas varje sekund
+    }
+}
+
 //Utförs när webbsidan laddas, för att bygga listan med radiostationer till vänster
 async function buildRadioList() {
     const endpoint = baseURL + '/radio';
@@ -144,6 +158,7 @@ async function infoRefresher() {
     }
 }
 
+startClock();
 buildRadioList();
 refreshSearchList();
 infoRefresher();

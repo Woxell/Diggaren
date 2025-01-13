@@ -70,5 +70,14 @@ a {
 }
 
 #radioPane {
+    position: relative;
     height: 400px;
+}
+
+#currentTime {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 18px;
+        font-weight: bold;
 }
