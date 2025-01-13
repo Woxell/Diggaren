@@ -8,12 +8,11 @@ from flask_cors import CORS
 from spotify_auth import SpotifyAuthenticator
 
 app = Flask(__name__)
-app.secret_key = 'en_hemlig_nyckeln'  # ???
 
 CORS(app)
 
 # Läs in api-nycklar
-file_path = os.path.abspath('../../src/spotify-api-key.txt')
+file_path = os.path.abspath('../DIGGAREN/src/spotify-api-key.txt')
 with open(file_path, "r") as file:
     for line in file:
         if line.startswith("API_KEY="):
