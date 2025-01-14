@@ -11,6 +11,7 @@ Se till att du har Python 3.x installerat på din dator. Du kommer även att beh
 ## Klona repot från Github
 
 Klona detta repo till valfri mapp på din dator: https://github.com/Woxell/Diggaren/
+I din IDE kan du komma att behöva specificera projektets "Working directory" som Diggaren-mappen så att filsökväg fungerar för filen som lagrar API-nycklar.
 
 ## Requirements.txt
 I terminalen navigera till projektets src-mapp där requirements.txt-filen är. Skriv följande kommando för att installera nödvändiga beroenden.
@@ -27,7 +28,7 @@ I src-mappen ska där finnas en textfil 'spotify-api-key.txt' innehållande en A
 #### Spotify-användare
 Till API:t måste man whitelistas. Om du inte är det, be André göra det genom att du skickar han din e-post som du använder för inloggning till Spotify. 
 ## Starta API:t
-Starta API:t genom att köra main.py
+Starta API:t genom att köra main.py, antingen genom att trycka på Spela-knappen i din IDE eller genom att skriva 'python main.py' i terminalen förutsatt att du är i rätt Working directory.
 
 ## Webbgränssnitt
 I valfri webbläsare, gå till [localhost:5000]() eller http://127.0.0.1:5000
