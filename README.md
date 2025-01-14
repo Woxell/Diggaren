@@ -32,5 +32,19 @@ Starta API:t genom att köra main.py
 ## Webbgränssnitt
 I valfri webbläsare, gå till [localhost:5000]() eller http://127.0.0.1:5000
 
+### Funktioner
+
+#### Välja radiostation
+Välj en radiostation att lyssna på genom att klicka på en av radiostationernas länkar i listan till vänster.
+
+#### Informationsavsnitt
+I avsnittet uppe till höger syns information om radiokanalen som spelas just nu samt spelkontroller för ljudströmmen.
+
+#### Sök-knappar
+För nuvarande eller föregående låt kan man välja att göra en sökning på Spotify. En länk genereras som tar en till Spotify för just den låten som spelats (med hög sannolikhet).
+
+#### Sökresultat
+I avsnittet nere till höger syns de senaste fem sökningarna.
+
 ## API-dokumentation
-För att se API-dokumentation, gå till [localhost:5000/api]()
+För att se API-dokumentation, gå till [localhost:5000/api]() eller öppna api.html-filen i valfri webbläsare.
