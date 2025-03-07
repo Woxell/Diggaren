@@ -12,7 +12,7 @@ app.secret_key = 'en_hemlig_nyckeln'
 CORS(app)
 
 # Läs in api-nycklar
-file_path = './src/spotify-api-key.txt'
+file_path = '../src/spotify-api-key.txt'
 with open(file_path, "r") as file:
     for line in file:
         if line.startswith("API_KEY="):
@@ -91,30 +91,24 @@ def get_channel(channelID):
 #Här lagrar vi sökresultat som en kö, max 5 sparade sökresultat
 search_queries = deque(maxlen=5)
 
-@app.route('/result', methods=['POST', 'OPTIONS'])
-def post_search():
-    if request.method == 'OPTIONS':
-        return jsonify({"message": "CORS preflight passed"}), 200
+@app.route('/result', methods=['GET'])
+def search_song():
+    title = request.args.get('title')
+    artist = request.args.get('artist')
 
-    try:
-        data = request.get_json()
-        search_query = f"{data.get('title')} {data.get('artist')}"
+    if title and artist:
+        search_query = f"{title} {artist}"
         try:
             search_results = spotify_auth.search_song(search_query)
-            search_queries.append(search_results[0]) #spara endast första sökresultatet
+            search_queries.append(search_results[0])  # Spara endast första sökresultatet
             return jsonify({"message": "Search successful", "results": search_results}), 200
-
         except Exception as e:
             print(f"Error searching Spotify: {e}")
             return jsonify({"error": "Error occurred while searching Spotify"}), 500
+    else:
+        # Returnera sparade sökningar om inga query-parametrar anges
+        return jsonify({"saved_searches": list(search_queries)}), 200
 
-    except Exception as e:
-        print(f"Error processing request: {e}")
-        return jsonify({"error": "Invalid request format"}), 400
-
-@app.route('/result', methods=['GET'])
-def get_search():
-    return json.dumps(list(search_queries))
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)

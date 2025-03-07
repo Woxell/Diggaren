@@ -1,9 +1,9 @@
 const baseURL = 'http://127.0.0.1:5000/';
 var currentRadioID = -1;
 
-//Utförs när webbsidan laddas, för att bygga listan med radiostationer till vänster
+// Bygger listan med radiostationer
 async function buildRadioList() {
-    const endpoint = baseURL + '/radio';
+    const endpoint = baseURL + 'radio';
     const options = {
         method: "GET",
         headers: {
@@ -13,23 +13,27 @@ async function buildRadioList() {
     const response = await fetch(endpoint, options);
     const radioJSON = await response.json();
     const radioList = document.querySelector("#stations");
+
     radioJSON.channels.forEach((channel) => {
         let listItem = document.createElement("li");
         let paragraphItem = document.createElement("span");
         let anchorItem = document.createElement("a");
+
         paragraphItem.innerHTML = " - " + channel.tagline;
         paragraphItem.id = "radioDescription";
+
         anchorItem.target = "_blank";
         anchorItem.innerHTML = channel.name;
         anchorItem.id = "radioLink";
         anchorItem.addEventListener("click", () => displayStation(channel));
+
         listItem.appendChild(anchorItem);
         listItem.appendChild(paragraphItem);
         radioList.appendChild(listItem);
     });
 }
 
-//Anropas vid klick på en radiostation i listan till vänster
+// Visar vald radiostation och uppdaterar spelarinformationen
 async function displayStation(channelJson) {
     currentRadioID = channelJson.id;
     document.getElementById("currentRadio").innerHTML = channelJson.name;
@@ -38,21 +42,17 @@ async function displayStation(channelJson) {
     await updateCurrentlyPlaying(currentRadioID);
 }
 
-// Uppdatera info om låttitel, artist, start- och stopptider
+// Uppdaterar aktuell låt, artist samt starttid och visar även tidigare låt
 async function updateCurrentlyPlaying(currentRadioID) {
-
-    // Hämta låtdata
     const currentSongJson = await getCurrentSongJSON(currentRadioID);
+    let currentArtist, currentTitle, currentStartTime;
+    let previousArtist, previousTitle, previousStartTime;
 
-    let currentArtist, currentTitle, currentStartTime, previousArtist, previousTitle, previousStartTime;
-
-    // Kontrollera om nuvarande låtdata finns
+    // Nuvarande låt
     const currentSong = currentSongJson?.playlist?.song;
     if (currentSong) {
         currentArtist = currentSong.artist || "Okänd artist";
         currentTitle = currentSong.title || "Okänd titel";
-
-        // Bearbeta starttid för nuvarande låt
         const startTimeUTC = currentSong.starttimeutc;
         if (startTimeUTC) {
             const timestamp = parseInt(startTimeUTC.replace("/Date(", "").replace(")/", ""));
@@ -65,13 +65,11 @@ async function updateCurrentlyPlaying(currentRadioID) {
         }
     }
 
-    // Kontrollera om föregående låtdata finns
+    // Föregående låt
     const previousSong = currentSongJson?.playlist?.previoussong;
     if (previousSong) {
         previousArtist = previousSong.artist || "Okänd artist";
         previousTitle = previousSong.title || "Okänd titel";
-
-        // Bearbeta starttid för föregående låt
         const previousStartTimeUTC = previousSong.starttimeutc;
         if (previousStartTimeUTC) {
             const timestamp = parseInt(previousStartTimeUTC.replace("/Date(", "").replace(")/", ""));
@@ -86,17 +84,16 @@ async function updateCurrentlyPlaying(currentRadioID) {
 
     document.getElementById("currentArtist").innerHTML = currentArtist ? "Artist: " + currentArtist : "Detta låter inte bra...";
     document.getElementById("currentSong").innerHTML = currentTitle ? "Titel: " + currentTitle : "Någon som yappar kanske?";
-    document.getElementById("currentTime").innerHTML = currentStartTime ? "Startade: " + currentStartTime :"";
+    document.getElementById("currentTime").innerHTML = currentStartTime ? "Startade: " + currentStartTime : "";
 
     document.getElementById("previousArtist").innerHTML = "Föregående artist: " + previousArtist;
     document.getElementById("previousSong").innerHTML = "Föregående titel: " + previousTitle;
     document.getElementById("prevousSongStart").innerHTML = "Startade: " + previousStartTime;
 }
 
-
-//För ett givet radiostations-ID hämtas och returneras ett JSON-objekt
+// Hämtar låtdata för en given radiostations-ID
 async function getCurrentSongJSON(channelID) {
-    const endpoint = baseURL + "/radio/" + channelID;
+    const endpoint = baseURL + "radio/" + channelID;
     const options = {
         method: "GET",
         headers: {
@@ -107,40 +104,47 @@ async function getCurrentSongJSON(channelID) {
     return await response.json();
 }
 
+// Initierar en sökning baserad på den nuvarande låten
 function searchCurrent() {
     let phrase = {
-        artist: (document.getElementById("currentArtist").innerHTML).replace("Artist: ", ""),
-        title: (document.getElementById("currentSong").innerHTML).replace("Titel: ", "")
+        artist: document.getElementById("currentArtist").innerHTML.replace("Artist: ", ""),
+        title: document.getElementById("currentSong").innerHTML.replace("Titel: ", "")
     };
+    // Om artist saknas, avbryt
     if (phrase.artist.substring(0, 5) === "Ingen") {
         return;
     }
     search(phrase);
 }
 
+// Initierar en sökning baserad på den föregående låten
 function searchPrevious() {
     let phrase = {
-        artist: (document.getElementById("previousArtist").innerHTML).replace("Föregående artist: ", ""),
-        title: (document.getElementById("previousSong").innerHTML).replace("Föregående titel: ", "")
+        artist: document.getElementById("previousArtist").innerHTML.replace("Föregående artist: ", ""),
+        title: document.getElementById("previousSong").innerHTML.replace("Föregående titel: ", "")
     };
-    if (phrase.artist || phrase.song) {
-        search(phrase);
-    }
+    search(phrase);
 }
 
+// Skickar en GET-förfrågan med sökparametrarna till API:et
 async function search(phrase) {
-    const endpoint = baseURL + "result";
+    if (!phrase.artist || !phrase.title || phrase.artist === "Okänd artist" || phrase.title === "Okänd titel") {
+        return; // Avbryt om artist eller titel saknas
+    }
+
+    const endpoint = `${baseURL}result?title=${encodeURIComponent(phrase.title)}&artist=${encodeURIComponent(phrase.artist)}`;
     const options = {
-        method: "POST",
+        method: "GET",
         headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(phrase)
+            "Accept": "application/json"
+        }
     };
-    await fetch(endpoint, options); //Behöver inte hantera response
+
+    await fetch(endpoint, options); // Hanterar inte responsen
     refreshSearchList();
 }
 
+// Hämtar de senast sparade sökningarna och uppdaterar listan i gränssnittet
 async function refreshSearchList() {
     const endpoint = baseURL + "result";
     const options = {
@@ -149,36 +153,44 @@ async function refreshSearchList() {
             "Accept": "application/json"
         }
     };
+
     const response = await fetch(endpoint, options);
-    const searches = await response.json();
+    const data = await response.json();
+
     const searchList = document.querySelector("#searchResults");
     searchList.replaceChildren();
-    searches.forEach((search) => {
-        let listItem = document.createElement("li");
-        let anchorItem = document.createElement("a");
-        anchorItem.target = "_blank";
-        anchorItem.innerHTML = search.artist + ": " + search.name;
-        if (anchorItem.innerHTML.length > 60) { //Om resultat-texten är för lång, korta av efter 60 tecken
-            anchorItem.innerHTML = anchorItem.innerHTML.substring(0, 60) + "...";
-        }
-        anchorItem.id = "searchLink";
-        anchorItem.href = search.spotify_url;
-        listItem.appendChild(anchorItem);
-        searchList.appendChild(listItem);
-    });
+
+    if (data.saved_searches) {
+        data.saved_searches.forEach((search) => {
+            let listItem = document.createElement("li");
+            let anchorItem = document.createElement("a");
+            anchorItem.target = "_blank";
+            anchorItem.innerHTML = search.artist + ": " + search.name;
+
+            // Om texten är för lång, förkorta den
+            if (anchorItem.innerHTML.length > 60) {
+                anchorItem.innerHTML = anchorItem.innerHTML.substring(0, 60) + "...";
+            }
+
+            anchorItem.id = "searchLink";
+            anchorItem.href = search.spotify_url;
+            listItem.appendChild(anchorItem);
+            searchList.appendChild(listItem);
+        });
+    }
 }
 
-// När ny låt spelas ska låttitel, artistnamn osv uppdateras.
-// Detta refreshas alltså varje 5:e sekund
+// Uppdaterar låtinformation var 5:e sekund
 async function infoRefresher() {
     while (true) {
         await new Promise(resolve => setTimeout(resolve, 5000));
         if (currentRadioID !== -1) {
-            await updateCurrentlyPlaying(currentRadioID)
+            await updateCurrentlyPlaying(currentRadioID);
         }
     }
 }
 
+// Startar funktionerna när sidan laddas
 buildRadioList();
 refreshSearchList();
 infoRefresher();
