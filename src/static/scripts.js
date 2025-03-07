@@ -1,9 +1,9 @@
 const baseURL = 'http://127.0.0.1:5000/';
 var currentRadioID = -1;
 
-// Bygger listan med radiostationer
+//Utförs när webbsidan laddas, för att bygga listan med radiostationer till vänster
 async function buildRadioList() {
-    const endpoint = baseURL + 'radio';
+    const endpoint = baseURL + '/radio';
     const options = {
         method: "GET",
         headers: {
@@ -33,7 +33,7 @@ async function buildRadioList() {
     });
 }
 
-// Visar vald radiostation och uppdaterar spelarinformationen
+//Anropas vid klick på en radiostation i listan till vänster
 async function displayStation(channelJson) {
     currentRadioID = channelJson.id;
     document.getElementById("currentRadio").innerHTML = channelJson.name;
@@ -42,8 +42,9 @@ async function displayStation(channelJson) {
     await updateCurrentlyPlaying(currentRadioID);
 }
 
-// Uppdaterar aktuell låt, artist samt starttid och visar även tidigare låt
+// Uppdatera info om låttitel, artist, start- och stopptider
 async function updateCurrentlyPlaying(currentRadioID) {
+    // Hämta låtdata
     const currentSongJson = await getCurrentSongJSON(currentRadioID);
     let currentArtist, currentTitle, currentStartTime;
     let previousArtist, previousTitle, previousStartTime;
@@ -53,6 +54,7 @@ async function updateCurrentlyPlaying(currentRadioID) {
     if (currentSong) {
         currentArtist = currentSong.artist || "Okänd artist";
         currentTitle = currentSong.title || "Okänd titel";
+        // Bearbeta starttid för nuvarande låt
         const startTimeUTC = currentSong.starttimeutc;
         if (startTimeUTC) {
             const timestamp = parseInt(startTimeUTC.replace("/Date(", "").replace(")/", ""));
@@ -70,6 +72,7 @@ async function updateCurrentlyPlaying(currentRadioID) {
     if (previousSong) {
         previousArtist = previousSong.artist || "Okänd artist";
         previousTitle = previousSong.title || "Okänd titel";
+        // Bearbeta starttid för föregående låt
         const previousStartTimeUTC = previousSong.starttimeutc;
         if (previousStartTimeUTC) {
             const timestamp = parseInt(previousStartTimeUTC.replace("/Date(", "").replace(")/", ""));
@@ -91,7 +94,7 @@ async function updateCurrentlyPlaying(currentRadioID) {
     document.getElementById("prevousSongStart").innerHTML = "Startade: " + previousStartTime;
 }
 
-// Hämtar låtdata för en given radiostations-ID
+//För ett givet radiostations-ID hämtas och returneras ett JSON-objekt
 async function getCurrentSongJSON(channelID) {
     const endpoint = baseURL + "radio/" + channelID;
     const options = {
@@ -123,13 +126,15 @@ function searchPrevious() {
         artist: document.getElementById("previousArtist").innerHTML.replace("Föregående artist: ", ""),
         title: document.getElementById("previousSong").innerHTML.replace("Föregående titel: ", "")
     };
-    search(phrase);
+    if (phrase.artist || phrase.song) {
+        search(phrase);
+    }
 }
 
 // Skickar en GET-förfrågan med sökparametrarna till API:et
 async function search(phrase) {
     if (!phrase.artist || !phrase.title || phrase.artist === "Okänd artist" || phrase.title === "Okänd titel") {
-        return; // Avbryt om artist eller titel saknas
+        return;
     }
 
     const endpoint = `${baseURL}result?title=${encodeURIComponent(phrase.title)}&artist=${encodeURIComponent(phrase.artist)}`;
@@ -140,7 +145,7 @@ async function search(phrase) {
         }
     };
 
-    await fetch(endpoint, options); // Hanterar inte responsen
+    await fetch(endpoint, options); // //Behöver inte hantera response
     refreshSearchList();
 }
 
@@ -180,7 +185,8 @@ async function refreshSearchList() {
     }
 }
 
-// Uppdaterar låtinformation var 5:e sekund
+// När ny låt spelas ska låttitel, artistnamn osv uppdateras.
+// Detta refreshas alltså varje 5:e sekund
 async function infoRefresher() {
     while (true) {
         await new Promise(resolve => setTimeout(resolve, 5000));
@@ -190,7 +196,6 @@ async function infoRefresher() {
     }
 }
 
-// Startar funktionerna när sidan laddas
 buildRadioList();
 refreshSearchList();
 infoRefresher();
