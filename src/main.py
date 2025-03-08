@@ -67,7 +67,7 @@ def api_dox():
     return render_template('api.html')
 
 ###REST-metoder
-@app.route('/radio', methods=['GET'])
+@app.route('/channels', methods=['GET'])
 def get_root():
     try:
         response = requests.get('http://api.sr.se/api/v2/channels?format=json')
