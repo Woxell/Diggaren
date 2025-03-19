@@ -15,7 +15,7 @@ CORS(app)
 api_key = os.getenv('API_KEY')
 api_secret = os.getenv('API_SECRET')
 
-spotify_auth = SpotifyAuthenticator(api_key, api_secret, 'http://localhost:8080/callback')
+spotify_auth = SpotifyAuthenticator(api_key, api_secret, 'https://diggaren.fly.dev/callback')
 
 # Index
 @app.route('/')
