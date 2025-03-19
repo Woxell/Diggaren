@@ -1,4 +1,4 @@
-import json
+import os
 import requests
 from collections import deque
 
@@ -12,15 +12,10 @@ app.secret_key = 'en_hemlig_nyckeln'
 CORS(app)
 
 # Läs in api-nycklar
-file_path = '../src/spotify-api-key.txt'
-with open(file_path, "r") as file:
-    for line in file:
-        if line.startswith("API_KEY="):
-            api_key = line.split("=", 1)[1].strip()
-        elif line.startswith("API_SECRET="):
-            api_secret = line.split("=", 1)[1].strip()
+api_key = os.getenv('API_KEY')
+api_secret = os.getenv('API_SECRET')
 
-spotify_auth = SpotifyAuthenticator(api_key, api_secret, 'http://localhost:5000/callback')
+spotify_auth = SpotifyAuthenticator(api_key, api_secret, 'http://localhost:8080/callback')
 
 # Index
 @app.route('/')
@@ -111,4 +106,4 @@ def search_song():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(debug=True, port=8080)
