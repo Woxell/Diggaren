@@ -1,4 +1,4 @@
-const baseURL = 'http://127.0.0.1:5000/';
+const baseURL = '/';
 var currentRadioID = -1;
 
 //Utförs när webbsidan laddas, för att bygga listan med radiostationer till vänster
