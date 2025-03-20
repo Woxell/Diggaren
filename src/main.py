@@ -12,8 +12,8 @@ app.secret_key = 'en_hemlig_nyckeln'
 CORS(app)
 
 # Läs in api-nycklar
-api_key = os.getenv('API_KEY')
-api_secret = os.getenv('API_SECRET')
+api_key = os.environ['API_KEY']
+api_secret = os.environ['API_SECRET']
 
 spotify_auth = SpotifyAuthenticator(api_key, api_secret, 'https://diggaren.fly.dev/callback')
 
