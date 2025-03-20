@@ -31,7 +31,7 @@ Till API:t måste man whitelistas. Om du inte är det, be André göra det genom
 Starta API:t genom att köra main.py, antingen genom att trycka på Spela-knappen i din IDE eller genom att skriva 'python main.py' i terminalen förutsatt att du är i rätt Working directory.
 
 ## Webbgränssnitt
-I valfri webbläsare, gå till [localhost:5000]() eller http://127.0.0.1:5000
+I valfri webbläsare, gå till https://srotify.fly.dev/
 
 ### Funktioner
 
@@ -48,4 +48,4 @@ För nuvarande eller föregående låt kan man välja att göra en sökning på 
 I avsnittet nere till höger syns de senaste fem sökningarna.
 
 ## API-dokumentation
-För att se API-dokumentation, gå till [localhost:5000/api]() eller öppna api.html-filen i valfri webbläsare.
+För att se API-dokumentation, gå till [https://srotify.fly.dev/api]() eller öppna api.html-filen i valfri webbläsare.

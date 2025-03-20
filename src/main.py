@@ -1,8 +1,7 @@
 import os
 import requests
 from collections import deque
-
-from flask import Flask, request, redirect, session, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, redirect
 from flask_cors import CORS
 from spotify_auth import SpotifyAuthenticator
 
@@ -11,46 +10,41 @@ app.secret_key = 'en_hemlig_nyckeln'
 
 CORS(app)
 
-# Läs in api-nycklar
+# # Read API keys
 api_key = os.environ['API_KEY']
 api_secret = os.environ['API_SECRET']
 
-spotify_auth = SpotifyAuthenticator(api_key, api_secret, 'https://srotify.fly.dev/callback')
+spotify_auth = SpotifyAuthenticator(api_key, api_secret)
 
-# Index
+# Index, simulerar Spotify user login
 @app.route('/')
 def index():
-    return render_template('index.html', auth_url=spotify_auth.get_auth_url())
+    if spotify_auth.access_token_set():
+        return redirect('/dashboard')
+    return render_template('index.html')
 
 
 # Metod för att hantera callback efter autentisering hos Spotify
-@app.route('/callback')
-def callback():
-    code = request.args.get('code')
-    print(f"Recieved code: {code}")
-    if not code:
-        return "Ingen kod mottogs från Spotify", 400
+# @app.route('/callback')
+# def callback():
+#     code = request.args.get('code')
+#     print(f"Recieved code: {code}")
+#     if not code:
+#         return "Ingen kod mottogs från Spotify", 400
+#
+#     try:
+#         spotify_auth.set_access_token(code)
+#         print("Access token satt!")
+#         return redirect('/dashboard')
+#     except Exception as e:
+#         print(f"Error setting access token: {e}")
+#         return "Ett fel uppstod vid autentisering", 500
 
-    try:
-        spotify_auth.set_access_token(code)
-        print("Access token satt!")
-        return redirect('/dashboard')
-    except Exception as e:
-        print(f"Error setting access token: {e}")
-        return "Ett fel uppstod vid autentisering", 500
-
-
+# Main dashboard. Använder ej längre spotify-användare
 @app.route('/dashboard')
 def dashboard():
-    try:
-        user_info = spotify_auth.get_current_user()
-        print(f"User info: {user_info}")
-        if user_info:
-            return render_template('dashboard.html', user=user_info)
-        return redirect('/')
-    except Exception as e:
-        print(f"Error fetching user info: {e}")
-        return "Ett fel uppstod vid hämtning av användarinformation", 500
+    spotify_auth.set_access_token()
+    return render_template('dashboard.html')
 
 @app.errorhandler(404)
 def page_not_found(error):
