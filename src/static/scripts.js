@@ -1,4 +1,4 @@
-const baseURL = 'https://diggaren.fly.dev/';
+const baseURL = 'https://srotify.fly.dev/';
 var currentRadioID = -1;
 
 //Utförs när webbsidan laddas, för att bygga listan med radiostationer till vänster
