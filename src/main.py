@@ -1,7 +1,7 @@
 import os
 import requests
 from collections import deque
-from flask import Flask, request, jsonify, render_template, redirect
+from flask import Flask, request, jsonify, render_template, redirect, send_from_directory
 from flask_cors import CORS
 from spotify_auth import SpotifyAuthenticator
 
@@ -48,6 +48,7 @@ def dashboard():
 
 @app.errorhandler(404)
 def page_not_found(error):
+    print("Errorhandler:")
     print(error)
     return render_template('404.html'), 404
 
@@ -56,6 +57,10 @@ def api_dox():
     return render_template('api.html')
 
 ###REST-metoder
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory('static', 'favicon.ico', mimetype='image/vnd.microsoft.icon')
+
 @app.route('/channels', methods=['GET'])
 def get_root():
     try:

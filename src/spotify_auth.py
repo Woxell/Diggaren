@@ -32,9 +32,18 @@ class SpotifyAuthenticator:
     def search_song(self, query):
         if not self.access_token:
             self.get_access_token()
-        search_url = f"https://api.spotify.com/v1/search?q={query}&type=track"
+        search_url = f"https://api.spotify.com/v1/search"
         headers = {
             "Authorization": f"Bearer {self.access_token}"
         }
-        response = requests.get(search_url, headers=headers)
+        params = {
+            "q": query,
+            "type": "track"
+        }
+        response = requests.get(search_url, headers=headers, params=params)
+        if response.status_code == 401:  # Unauthorized, possibly due to expired token
+            self.get_access_token()
+            headers["Authorization"] = f"Bearer {self.access_token}"
+            response = requests.get(search_url, headers=headers, params=params)
+        response.raise_for_status()  # Raise an exception for HTTP errors
         return response.json().get("tracks", {}).get("items", [])

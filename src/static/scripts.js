@@ -85,13 +85,13 @@ async function updateCurrentlyPlaying(currentRadioID) {
         }
     }
 
-    document.getElementById("currentArtist").innerHTML = currentArtist ? "Artist: " + currentArtist : "Detta låter inte bra...";
+    document.getElementById("currentArtist").innerHTML = currentArtist ? "Artist: " + currentArtist : "Ingen låt spelas just nu...";
     document.getElementById("currentSong").innerHTML = currentTitle ? "Titel: " + currentTitle : "Någon som yappar kanske?";
     document.getElementById("currentTime").innerHTML = currentStartTime ? "Startade: " + currentStartTime : "";
 
     document.getElementById("previousArtist").innerHTML = "Föregående artist: " + previousArtist;
     document.getElementById("previousSong").innerHTML = "Föregående titel: " + previousTitle;
-    document.getElementById("prevousSongStart").innerHTML = "Startade: " + previousStartTime;
+    document.getElementById("previousSongStart").innerHTML = previousStartTime ? "Startade: " + previousStartTime : "";
 }
 
 //För ett givet radiostations-ID hämtas och returneras ett JSON-objekt
@@ -170,7 +170,7 @@ async function refreshSearchList() {
             let listItem = document.createElement("li");
             let anchorItem = document.createElement("a");
             anchorItem.target = "_blank";
-            anchorItem.innerHTML = search.artist + ": " + search.name;
+            anchorItem.innerHTML = search.artists[0].name + ": " + search.name;
 
             // Om texten är för lång, förkorta den
             if (anchorItem.innerHTML.length > 60) {
@@ -178,7 +178,7 @@ async function refreshSearchList() {
             }
 
             anchorItem.id = "searchLink";
-            anchorItem.href = search.spotify_url;
+            anchorItem.href = search.external_urls.spotify;
             listItem.appendChild(anchorItem);
             searchList.appendChild(listItem);
         });

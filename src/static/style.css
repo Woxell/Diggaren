@@ -10,12 +10,10 @@ body {
     padding-top: 20px;
 }
 
-table {
-    width: 1100px;
-    border-collapse: collapse;
-    background-color: #1e1e1e;
-    color: #e0e0e0;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+.container {
+    width: 90%;
+    max-width: 1100px;
+    text-align: center;
 }
 
 #SRotify {
@@ -26,6 +24,62 @@ table {
     justify-self: center;
     margin-bottom: 20px;
     text-shadow: 1px 5px 2px #006400;
+}
+
+
+.content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: flex-start;
+    align-items: stretch;
+}
+
+#list {
+    flex: 1;
+    min-width: 300px;
+    background-color: #1e1e1e;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    text-align: left;
+}
+
+a {
+    color: #77baff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+#stations {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#stations li {
+    text-align: left;
+    padding: 5px 0;
+}
+
+.info-container {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    gap: 20px;
+}
+
+#radioPane, #spotifyPane {
+    background-color: #1e1e1e;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    text-align: left;
 }
 
 button {
@@ -39,23 +93,8 @@ button {
     text-shadow: 1px 1px 1px #000;
 }
 
-
 button:hover {
     background-color: #17a543;
-}
-
-img {
-    border-radius: 50%;
-    width: 150px;
-    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
-}
-
-
-th, td {
-    padding: 10px;
-    border: 1px solid #444;
-    text-align: left;
-    vertical-align: top;
 }
 
 #radioLink {
@@ -72,34 +111,19 @@ th, td {
     color: #bbbbbb;
 }
 
-#list {
-    width: 500px;
-    background-color: #1e1e1e;
-    padding: 10px;
-    border-radius: 5px;
-}
+/* Media Query: Adjust layout for mobile */
+@media (max-width: 768px) {
+    .content {
+        flex-direction: column;
+        align-items: center;
+    }
 
-#info {
-    width: 700px;
-    background-color: #1e1e1e;
-    padding: 10px;
-    border-radius: 5px;
-}
+    #list {
+        width: 100%;
+        order: 2;
+    }
 
-a {
-    color: #77baff;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-#radioPane {
-    height: 400px;
-    background-color: #1e1e1e;
-    color: #e0e0e0;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    .info-container {
+        width: 100%;
+    }
 }

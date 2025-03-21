@@ -4,46 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SRotify!</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
     <link rel="stylesheet" href="../static/style.css">
     <script src="../static/scripts.js" defer></script>
 </head>
 <body>
 <div class="container">
     <h1 id="SRotify">SRotify</h1>
-    <table>
-        <tr>
-            <td rowspan="2" id="list">
-                <ul id="stations"></ul>
-            </td>
 
-            <td id="radioPane">
+    <div class="content">
+        <!-- Stations List -->
+        <div id="list">
+            <ul id="stations"></ul>
+        </div>
+
+        <!-- Radio & Spotify Information -->
+        <div class="info-container">
+            <div id="radioPane">
                 <h3 id="currentRadio">Välkommen!</h3>
-                <p id="currentArtist">Ingen radio spelas just nu</p>
+                <p id="currentArtist">Ingen radio spelas just nu...</p>
                 <p id="currentSong">Välj en radiostation att lyssna på!</p>
                 <p id="currentTime">-</p>
-                <button type="button" id="searchCurrent" onclick="searchCurrent()">SRotify denna låt!
-                </button>
-                <br>
-                <br>
+                <button type="button" id="searchCurrent" onclick="searchCurrent()">SRotify denna låt!</button>
+                </br>
+                </br>
                 <audio id="player" controls autoplay>
                     <source src="" type="audio/mp3">
                 </audio>
-                <br>
                 <p id="previousArtist"></p>
                 <p id="previousSong"></p>
-                <p id="prevousSongStart">-</p>
-                <button type="button" id="searchPrevious" onclick="searchPrevious()">SRotify föregående låt!
-                </button>
-            </td>
+                <p id="previousSongStart">-</p>
+                <button type="button" id="searchPrevious" onclick="searchPrevious()">SRotify föregående låt!</button>
+            </div>
 
-        </tr>
-        <tr>
-            <td id="spotifyPane">
+            <div id="spotifyPane">
                 <p>Senaste sökresultat hos Spotify</p>
                 <ul id="searchResults"></ul>
-            </td>
-        </tr>
-    </table>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>
