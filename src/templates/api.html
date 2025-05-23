@@ -53,6 +53,19 @@
         <li><strong>/dashboard</strong> - Gränssnitt för API-funktionaliteter.</li>
     </ul>
 
+    <h2>Autentisering</h2>
+    <h3>Spotify-autentisering (OAuth)</h3>
+    <p>För att använda Spotify-sökning måste användaren autentisera sig via OAuth.</p>
+    <p>Efter autentisering skickas användaren till <code>/callback</code> och får ett access-token som används för att göra API-förfrågningar mot Spotify.</p>
+
+    <h3>Tillgång till Spotify-API</h3>
+    <p>En användare behöver bli "Whitelistad" av en administratör för programmet.</p>
+    <p>Detta innebär att användaren behöver skicka e-posten som används för inloggning till det personliga Spotify-kontot.</p>
+
+    <h3>SR-API</h3>
+    <p>SR erbjuder ett öppet API som inte kräver någon autentisering eller inloggningsuppgift.</p>
+    <p>Tillgång till API:et finns öppet att hitta för användaren och det hittas med namnet <code>https://api.sr.se/api/v2/</code></p>
+
     <h2>GET /channels</h2>
     <p>Hämta en lista över alla radiokanaler från Sveriges Radio.</p>
 
