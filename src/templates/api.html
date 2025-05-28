@@ -67,13 +67,16 @@
     <p>Tillgång till API:et finns öppet att hitta för användaren och det hittas med namnet <code>https://api.sr.se/api/v2/</code></p>
 
     <h2>GET /channels</h2>
+    <p>Metod: GET</p>
     <p>Hämta en lista över alla radiokanaler från Sveriges Radio.</p>
 
     <h2>GET /radio/{channelID}</h2>
+    <p>Metod: GET</p>
     <p>Hämta aktuell information om en specifik radiokanal.</p>
     <p><strong>Exempel:</strong> <code>GET /radio/132</code></p>
 
     <h2>GET /result?title=&lt;title&gt;&artist=&lt;artist&gt;</h2>
+    <p>Metod: GET</p>
     <p>Utför en sökning efter en låt i Spotify och lagrar resultatet.</p>
     <p><strong>Exempel:</strong></p>
     <pre><code>GET /result?title=Baby Doll&artist=Top Cats</code></pre>
@@ -88,10 +91,19 @@
             "spotify_url": "https://open.spotify.com/track/7zvpK2YrJx4sFmW9n2WqF5"
         }
     ]
+    
 }</code></pre>
+    <h4>Beskrivning av query-parametrar</h4>
+    <p>"album"- albumet som låten tillhör</p>
+    <p>"artist" - namnet på artisten</p>
+    <p>"name" - låtens namn</p>
+    <p>"spotify_url"- Länk till låten på Spotify</p>
 
     <h2>GET /result</h2>
+    <p>Metod: GET</p>
     <p>Hämta de senaste fem sökresultaten.</p>
+    <p>OBS! Det är endast de fem senaste sökresultaten som sparas i minnet.
+        Resultaten återställs när servern startas om</p>
     <h3>Returdata</h3>
     <pre><code>[{
     "name": "Symphony No. 2",
@@ -99,6 +111,13 @@
     "spotify_url": "https://open.spotify.com/track/5YOO1fnXyLEsYTeGVCI0oz",
     "album": "Sibelius: Symphonies Nos. 2 and 3"
 }]</code></pre>
+
+    <h4>Beskrivning av query-parametrar</h4>
+    <p>"album"- albumet som låten tillhör</p>
+    <p>"artist" - namnet på artisten</p>
+    <p>"name" - låtens namn</p>
+    <p>"spotify_url"- Länk till låten på Spotify</p>
+
 
     <h2>Felhantering</h2>
     <ul>
