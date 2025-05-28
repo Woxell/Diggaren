@@ -3,7 +3,7 @@ var currentRadioID = -1;
 
 //Utförs när webbsidan laddas, för att bygga listan med radiostationer till vänster
 async function buildRadioList() {
-    const endpoint = baseURL + '/channels';
+    const endpoint = baseURL + 'api/channels';
     const options = {
         method: "GET",
         headers: {
@@ -96,7 +96,7 @@ async function updateCurrentlyPlaying(currentRadioID) {
 
 //För ett givet radiostations-ID hämtas och returneras ett JSON-objekt
 async function getCurrentSongJSON(channelID) {
-    const endpoint = baseURL + "radio/" + channelID;
+    const endpoint = baseURL + "api/radio/" + channelID;
     const options = {
         method: "GET",
         headers: {
@@ -137,7 +137,7 @@ async function search(phrase) {
         return;
     }
 
-    const endpoint = `${baseURL}result?title=${encodeURIComponent(phrase.title)}&artist=${encodeURIComponent(phrase.artist)}`;
+    const endpoint = `${baseURL}api/search?title=${encodeURIComponent(phrase.title)}&artist=${encodeURIComponent(phrase.artist)}`;
     const options = {
         method: "GET",
         headers: {
@@ -151,7 +151,7 @@ async function search(phrase) {
 
 // Hämtar de senast sparade sökningarna och uppdaterar listan i gränssnittet
 async function refreshSearchList() {
-    const endpoint = baseURL + "result";
+    const endpoint = baseURL + "api/search";
     const options = {
         method: "GET",
         headers: {
