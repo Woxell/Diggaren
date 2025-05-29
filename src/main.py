@@ -67,7 +67,7 @@ def api_dox():
     return render_template('api.html')
 
 ###REST-metoder
-@app.route('/channels', methods=['GET'])
+@app.route('/api/channels', methods=['GET'])
 def get_root():
     try:
         response = requests.get('http://api.sr.se/api/v2/channels?format=json')
@@ -78,7 +78,7 @@ def get_root():
         return jsonify({"error": "Kunde inte hämta radiostationer"}), 404
 
 
-@app.route('/radio/<channelID>', methods=['GET'])
+@app.route('/api/radio/<channelID>', methods=['GET'])
 def get_channel(channelID):
     try:
         response = requests.get(f"https://api.sr.se/api/v2/playlists/rightnow?channelid={channelID}&format=json")
@@ -91,7 +91,7 @@ def get_channel(channelID):
 #Här lagrar vi sökresultat som en kö, max 5 sparade sökresultat
 search_queries = deque(maxlen=5)
 
-@app.route('/result', methods=['GET'])
+@app.route('/api/search', methods=['GET'])
 def search_song():
     title = request.args.get('title')
     artist = request.args.get('artist')
