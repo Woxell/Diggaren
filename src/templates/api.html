@@ -70,16 +70,16 @@
     <p>Metod: GET</p>
     <p>Hämta en lista över alla radiokanaler från Sveriges Radio.</p>
 
-    <h2>GET /api/radio/{channelID}</h2>
+    <h2>GET /api/channels/{channelID}</h2>
     <p>Metod: GET</p>
     <p>Hämta aktuell information om en specifik radiokanal.</p>
-    <p><strong>Exempel:</strong> <code>GET /radio/132</code></p>
+    <p><strong>Exempel:</strong> <code>GET /channel/132</code></p>
 
-    <h2>GET /api/search?title=&lt;title&gt;&artist=&lt;artist&gt;</h2>
+    <h2>GET /api/songs?title=&lt;title&gt;&artist=&lt;artist&gt;</h2>
     <p>Metod: GET</p>
     <p>Utför en sökning efter en låt i Spotify och lagrar resultatet.</p>
     <p><strong>Exempel:</strong></p>
-    <pre><code>GET /result?title=Baby Doll&artist=Top Cats</code></pre>
+    <pre><code>GET /songs?title=Baby Doll&artist=Top Cats</code></pre>
     <h3>Returdata</h3>
     <pre><code>{
     "message": "Search successful",
