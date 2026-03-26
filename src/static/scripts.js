@@ -23,7 +23,7 @@ async function buildRadioList() {
         paragraphItem.id = "radioDescription";
 
         anchorItem.target = "_blank";
-        anchorItem.innerHTML = channel.name;
+        anchorItem.innerHTML = channel.name === "P4 Halland" ? "P4 SKEÅNE Ell0r?" : channel.name;
         anchorItem.id = "radioLink";
         anchorItem.addEventListener("click", () => displayStation(channel));
 
